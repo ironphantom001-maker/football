@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Champions Cup Pro - لیگ قهرمانان حرفه‌ای</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1rem 0;
+            border-bottom: 3px solid #ffd700;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .logo {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            border: 2px solid #ffd700;
+            display: inline-block;
+            margin: 0 auto;
+        }
+
+        .logo-line1 {
+            font-size: 1.8rem;
+            letter-spacing: 3px;
+        }
+
+        .logo-line2 {
+            font-size: 2.2rem;
+            letter-spacing: 8px;
+            margin: 5px 0;
+        }
+
+        .logo-line3 {
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            color: #ffd700;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: #ffd700;
+            color: #000;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .league-info {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .league-info h1 {
+            color: #ffd700;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .table-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            margin-bottom: 30px;
+        }
+
+        .league-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .league-table th {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #000;
+            padding: 15px 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .league-table td {
+            padding: 12px 10px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .league-table tr:hover {
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .team-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-align: right;
+        }
+
+        .team-logo {
+            width: 30px;
+            height: 30px;
+            background: #ffd700;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #000;
+            font-size: 0.8rem;
+        }
+
+        .position {
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        .admin-section {
+            background: rgba(255, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 1px solid #ff4444;
+        }
+
+        .login-form {
+            text-align: center;
+        }
+
+        .login-form h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+        }
+
+        .admin-panel {
+            display: none;
+        }
+
+        .user-message {
+            background: rgba(255, 215, 0, 0.2);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            text-align: center;
+            border-right: 4px solid #ffd700;
+        }
+
+        .management-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .add-team-form, .delete-team-form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #000;
+        }
+
+        button {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-delete {
+            background: linear-gradient(45deg, #ff4444, #ff6666);
+        }
+
+        .btn-logout {
+            background: linear-gradient(45deg, #ff4444, #ff6666);
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+            border-top: 1px solid #ffd700;
+        }
+
+        @media (max-width: 768px) {
+            .management-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <div class="logo">
+                <div class="logo-line1">CHAMPIONS</div>
+                <div class="logo-line2">CUP</div>
+                <div class="logo-line3">PRO</div>
+            </div>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#" class="active">جدول لیگ</a></li>
+                <li><a href="#">تیم‌ها</a></li>
+                <li><a href="#">برنامه بازی‌ها</a></li>
+                <li><a href="#">آمارها</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="league-info">
+            <h1>لیگ قهرمانان حرفه‌ای</h1>
+            <p>فصل ۲۰۲۴ - گروه A</p>
+        </div>
+
+        <div class="table-container">
+            <table class="league-table">
+                <thead>
+                    <tr>
+                        <th>رتبه</th>
+                        <th>تیم</th>
+                        <th>بازی</th>
+                        <th>برد</th>
+                        <th>مساوی</th>
+                        <th>باخت</th>
+                        <th>گل زده</th>
+                        <th>گل خورده</th>
+                        <th>تفاضل</th>
+                        <th>امتیاز</th>
+                    </tr>
+                </thead>
+                <tbody id="teamsTable">
+                    <!-- تیم‌ها اینجا نمایش داده می‌شوند -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="admin-section">
+            <div class="login-form" id="loginForm">
+                <h3>🔐 بخش مدیریت لیگ</h3>
+                <p>برای ویرایش جدول وارد شوید</p>
+                <div style="display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap;">
+                    <input type="password" id="adminPass" placeholder="رمز مدیریت" style="padding: 8px; border-radius: 5px; border: none;">
+                    <button onclick="login()">ورود به مدیریت</button>
+                </div>
+            </div>
+            
+            <div class="admin-panel" id="adminPanel">
+                <div class="user-message">
+                    ✅ <strong>حالت مدیریت فعال است</strong> - فقط شما می‌توانید تغییرات ایجاد کنید
+                    <button class="btn-logout" onclick="logout()">خروج از مدیریت</button>
+                </div>
+                
+                <div class="management-section">
+                    <div class="add-team-form">
+                        <h3>➕ اضافه کردن تیم جدید</h3>
+                        <form id="teamForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <input type="text" id="teamName" placeholder="نام تیم" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" id="teamShort" placeholder="حروف اختصاری" required maxlength="3">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <input type="number" id="played" placeholder="تعداد بازی" value="0" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" id="won" placeholder="برد" value="0" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" id="drawn" placeholder="مساوی" value="0" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" id="lost" placeholder="باخت" value="0" min="0">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <input type="number" id="goalsFor" placeholder="گل زده" value="0" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" id="goalsAgainst" placeholder="گل خورده" value="0" min="0">
+                                </div>
+                            </div>
+                            <button type="submit">اضافه کردن تیم</button>
+                        </form>
+                    </div>
+
+                    <div class="delete-team-form">
+                        <h3>🛠️ مدیریت تیم‌های موجود</h3>
+                        <div class="form-group">
+                            <label>انتخاب تیم برای ویرایش:</label>
+                            <select id="teamSelect" onchange="loadTeamForEdit()">
+                                <option value="">-- انتخاب تیم --</option>
+                            </select>
+                        </div>
+                        
+                        <form id="editForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <input type="text" id="editTeamName" placeholder="نام تیم" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" id="editTeamShort" placeholder="حروف اختصاری" required maxlength="3">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <input type="number" id="editPlayed" placeholder="بازی" min="0" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" id="editWon" placeholder="برد" min="0" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" id="editDrawn" placeholder="مساوی" min="0" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" id="editLost" placeholder="باخت" min="0" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <input type="number" id="editGoalsFor" placeholder="گل زده" min="0" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" id="editGoalsAgainst" placeholder="گل خورده" min="0" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <button type="submit">ذخیره تغییرات</button>
+                                <button type="button" onclick="deleteSelectedTeam()" class="btn-delete">حذف تیم انتخاب شده</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2024 Champions Cup Pro - تمام حقوق محفوظ است</p>
+        <p>دسترسی مدیریت: فقط برای مدیر سیستم</p>
+    </footer>
+
+    <script>
+        // داده‌های اولیه برای تست
+        const initialTeams = [
+            {
+                name: "بارسلونا",
+                short: "BAR",
+                played: 6,
+                won: 4,
+                drawn: 1,
+                lost: 1,
+                goalsFor: 12,
+                goalsAgainst: 5
+            },
+            {
+                name: "رئال مادرید",
+                short: "RMA", 
+                played: 6,
+                won: 3,
+                drawn: 2,
+                lost: 1,
+                goalsFor: 10,
+                goalsAgainst: 6
+            },
+            {
+                name: "بایرن مونیخ",
+                short: "BAY",
+                played: 6,
+                won: 3,
+                drawn: 1,
+                lost: 2,
+                goalsFor: 8,
+                goalsAgainst: 7
+            }
+        ];
+
+        const ADMIN_PASSWORD = "champions123";
+        let isAdmin = false;
+        let teams = [];
+
+        // بارگذاری اولیه داده‌ها
+        function initializeData() {
+            console.log("Initializing data...");
+            const saved = localStorage.getItem('championsCupTeams');
+            console.log("Saved data:", saved);
+            
+            if (saved) {
+                try {
+                    teams = JSON.parse(saved);
+                    console.log("Loaded teams:", teams);
+                } catch (e) {
+                    console.error("Error parsing saved data:", e);
+                    teams = [...initialTeams];
+                    saveTeams();
+                }
+            } else {
+                console.log("No saved data, using initial teams");
+                teams = [...initialTeams];
+                saveTeams();
+            }
+            
+            renderTable();
+            updateTeamSelect();
+        }
+
+        function saveTeams() {
+            localStorage.setItem('championsCupTeams', JSON.stringify(teams));
+            console.log("Teams saved:", teams);
+        }
+
+        function login() {
+            const password = document.getElementById('adminPass').value;
+            if (password === ADMIN_PASSWORD) {
+                isAdmin = true;
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                document.getElementById('adminPass').value = '';
+                updateTeamSelect();
+                alert('✅ وارد سیستم مدیریت شدید');
+            } else {
+                alert('❌ رمز اشتباه است!');
+            }
+        }
+
+        function logout() {
+            isAdmin = false;
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('adminPanel').style.display = 'none';
+            alert('✅ از حالت مدیریت خارج شدید');
+        }
+
+        function updateTeamSelect() {
+            const teamSelect = document.getElementById('teamSelect');
+            teamSelect.innerHTML = '<option value="">-- انتخاب تیم --</option>';
+            
+            teams.forEach((team, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = team.name;
+                teamSelect.appendChild(option);
+            });
+        }
+
+        function loadTeamForEdit() {
+            const teamSelect = document.getElementById('teamSelect');
+            const selectedIndex = teamSelect.value;
+            
+            if (selectedIndex === "") {
+                clearEditForm();
+                return;
+            }
+            
+            const team = teams[selectedIndex];
+            document.getElementById('editTeamName').value = team.name;
+            document.getElementById('editTeamShort').value = team.short;
+            document.getElementById('editPlayed').value = team.played;
+            document.getElementById('editWon').value = team.won;
+            document.getElementById('editDrawn').value = team.drawn;
+            document.getElementById('editLost').value = team.lost;
+            document.getElementById('editGoalsFor').value = team.goalsFor;
+            document.getElementById('editGoalsAgainst').value = team.goalsAgainst;
+        }
+
+        function clearEditForm() {
+            document.getElementById('editTeamName').value = '';
+            document.getElementById('editTeamShort').value = '';
+            document.getElementById('editPlayed').value = '';
+            document.getElementById('editWon').value = '';
+            document.getElementById('editDrawn').value = '';
+            document.getElementById('editLost').value = '';
+            document.getElementById('editGoalsFor').value = '';
+            document.getElementById('editGoalsAgainst').value = '';
+        }
+
+        function deleteSelectedTeam() {
+            const teamSelect = document.getElementById('teamSelect');
+            const selectedIndex = teamSelect.value;
+            
+            if (selectedIndex === "") {
+                alert('⚠️ لطفاً یک تیم برای حذف انتخاب کنید');
+                return;
+            }
+            
+            const teamName = teams[selectedIndex].name;
+            if (confirm(`⚠️ آیا مطمئن هستید که می‌خواهید تیم "${teamName}" را حذف کنید؟`)) {
+                teams.splice(selectedIndex, 1);
+                saveTeams();
+                renderTable();
+                updateTeamSelect();
+                clearEditForm();
+                alert('✅ تیم با موفقیت حذف شد!');
+            }
+        }
+
+        function calculateStats(team) {
+            return {
+                goalDifference: team.goalsFor - team.goalsAgainst,
+                points: (team.won * 3) + team.drawn
+            };
+        }
+
+        function sortTeams(teams) {
+            return teams.sort((a, b) => {
+                const statsA = calculateStats(a);
+                const statsB = calculateStats(b);
+                
+                if (statsB.points !== statsA.points) {
+                    return statsB.points - statsA.points;
+                }
+                
+                if (statsB.goalDifference !== statsA.goalDifference) {
+                    return statsB.goalDifference - statsA.goalDifference;
+                }
+                
+                return statsB.goalsFor - statsA.goalsFor;
+            });
+        }
+
+        function renderTable() {
+            const tableBody = document.getElementById('teamsTable');
+            console.log("Rendering table with teams:", teams);
+            
+            if (teams.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="10" style="text-align: center; padding: 40px; color: #888;">🏆 هنوز هیچ تیمی در لیگ وجود ندارد</td></tr>';
+                return;
+            }
+            
+            const sortedTeams = sortTeams(teams);
+            
+            tableBody.innerHTML = sortedTeams.map((team, index) => {
+                const stats = calculateStats(team);
+                
+                return `
+                    <tr>
+                        <td class="position">${index + 1}</td>
+                        <td>
+                            <div class="team-cell">
+                                <div class="team-logo">${team.short}</div>
+                                <div>${team.name}</div>
+                            </div>
+                        </td>
+                        <td>${team.played}</td>
+                        <td>${team.won}</td>
+                        <td>${team.drawn}</td>
+                        <td>${team.lost}</td>
+                        <td>${team.goalsFor}</td>
+                        <td>${team.goalsAgainst}</td>
+                        <td>${stats.goalDifference > 0 ? '+' : ''}${stats.goalDifference}</td>
+                        <td><strong>${stats.points}</strong></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // مدیریت فرم‌ها
+        document.getElementById('teamForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!isAdmin) {
+                alert('❌ فقط مدیر می‌تواند تیم اضافه کند!');
+                return;
+            }
+
+            const newTeam = {
+                name: document.getElementById('teamName').value,
+                short: document.getElementById('teamShort').value.toUpperCase(),
+                played: parseInt(document.getElementById('played').value) || 0,
+                won: parseInt(document.getElementById('won').value) || 0,
+                drawn: parseInt(document.getElementById('drawn').value) || 0,
+                lost: parseInt(document.getElementById('lost').value) || 0,
+                goalsFor: parseInt(document.getElementById('goalsFor').value) || 0,
+                goalsAgainst: parseInt(document.getElementById('goalsAgainst').value) || 0
+            };
+            
+            teams.push(newTeam);
+            saveTeams();
+            renderTable();
+            updateTeamSelect();
+            this.reset();
+            
+            alert('✅ تیم با موفقیت اضافه شد!');
+        });
+
+        document.getElementById('editForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const teamSelect = document.getElementById('teamSelect');
+            const selectedIndex = teamSelect.value;
+            
+            if (selectedIndex === "") {
+                alert('⚠️ لطفاً یک تیم برای ویرایش انتخاب کنید');
+                return;
+            }
+
+            teams[selectedIndex] = {
+                name: document.getElementById('editTeamName').value,
+                short: document.getElementById('editTeamShort').value.toUpperCase(),
+                played: parseInt(document.getElementById('editPlayed').value) || 0,
+                won: parseInt(document.getElementById('editWon').value) || 0,
+                drawn: parseInt(document.getElementById('editDrawn').value) || 0,
+                lost: parseInt(document.getElementById('editLost').value) || 0,
+                goalsFor: parseInt(document.getElementById('editGoalsFor').value) || 0,
+                goalsAgainst: parseInt(document.getElementById('editGoalsAgainst').value) || 0
+            };
+            
+            saveTeams();
+            renderTable();
+            updateTeamSelect();
+            alert('✅ تیم با موفقیت ویرایش شد!');
+        });
+
+        // شروع برنامه
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("DOM loaded, initializing...");
+            initializeData();
+        });
+    </script>
+</body>
+</html>
